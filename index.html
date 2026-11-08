@@ -1,18 +1,389 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>devBertini: apps</title><meta name="description" content="Apps for iPhone.">
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claudio Bertini: IA de ponta a ponta</title>
+<meta name="description" content="Claudio Bertini constrói produtos com IA de ponta a ponta, do modelo ao app, na nuvem ou no hardware do cliente.">
+<meta property="og:title" content="Claudio Bertini: IA de ponta a ponta, do modelo ao app">
+<meta property="og:description" content="LLMs, agentes e apps (iOS, Android, Windows, web) com resultados medidos.">
+<meta property="og:image" content="https://devbertini.github.io/assets/claudio.jpg">
+<meta name="theme-color" content="#0d1114">
+<link rel="icon" href="assets/avatar-8bit.svg" type="image/svg+xml">
 <style>
-:root{color-scheme:light dark;--bg:#f6f5f8;--fg:#1d1a22;--dim:#5d5868;--card:#ffffff;--line:#e3e0e8;--link:#5b3fd6}
-@media (prefers-color-scheme:dark){:root{--bg:#141118;--fg:#efeaf5;--dim:#a9a2b6;--card:#1e1a24;--line:#2e2836;--link:#b7a4ff}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-main{max-width:640px;margin:0 auto;padding:48px 16px}h1{font-size:28px;margin:0 0 4px}p.lead{color:var(--dim);margin:0 0 28px}
-ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}li a{display:block;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--fg);text-decoration:none}
-li a strong{display:block;color:var(--link)}li a span{color:var(--dim);font-size:14px}footer{margin-top:32px;color:var(--dim);font-size:14px}a{color:var(--link)}
-</style></head><body><main>
-<h1>devBertini</h1><p class="lead">Apps for iPhone.</p>
-<ul>
-<li><a href="/kyauto/"><strong>KyAuto</strong><span>Your vehicle, all in one place</span></a></li>
-<li><a href="/kypdf/"><strong>KyPDF</strong><span>Every PDF tool, 100% on your iPhone</span></a></li>
-<li><a href="/kypet/"><strong>KyPet</strong><span>Your pet's complete digital life, 100% private</span></a></li>
-</ul>
-</main></body></html>
+/* Identity palette (owner, 08/11/2026): graphite + cyan, matching the black-and-white photo. */
+:root{
+  --bg:#0d1114; --bg2:#12262d; --surface:#161b20; --line:#25303a;
+  --ink:#f2f6f8; --sub:#b6c1c8; --mute:#7f8b94;
+  --cyan:#22d3ee; --cyan2:#67e8f9; --cyan-deep:#0e7490;
+  --sans: "Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"SF Pro Display",Roboto,sans-serif;
+  --mono: ui-monospace,"Cascadia Code","SF Mono",Consolas,monospace;
+  --wrap: min(1120px, 100% - 32px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--cyan2)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.wrap{width:var(--wrap);margin-inline:auto}
+.skip{position:absolute;left:-999px}.skip:focus{left:16px;top:16px;background:var(--ink);color:var(--bg);padding:8px 12px;z-index:10}
+
+/* Top bar */
+.bar{position:fixed;inset:0 0 auto;z-index:5;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid transparent;transition:border-color .3s}
+.bar.scrolled{border-bottom-color:var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none;font-weight:650;letter-spacing:-.01em}
+.brand img{width:28px;height:28px;image-rendering:pixelated}
+.bar nav{display:flex;gap:22px;align-items:center}
+.bar nav a{color:var(--sub);text-decoration:none;font-size:15px}
+.bar nav a:hover{color:var(--ink)}
+.lang{background:none;border:1px solid var(--line);color:var(--ink);font:600 13px var(--sans);padding:6px 10px;border-radius:999px;cursor:pointer}
+.lang:hover{border-color:var(--cyan)}
+@media (max-width:760px){.bar nav a{display:none}}
+
+/* Hero: the one bold moment, a network carrying signal from model to app. */
+.hero{position:relative;min-height:clamp(640px,100svh,940px);display:grid;align-items:center;overflow:hidden;
+  background:radial-gradient(90% 70% at 80% 10%,var(--bg2) 0%,var(--bg) 60%)}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding-block:120px 96px}
+.hero h1{margin:0;font-size:clamp(42px,6.2vw,84px);line-height:1;letter-spacing:-.045em;font-weight:700;max-width:16ch;text-wrap:balance}
+.hero h1 .flow{display:block;color:transparent;-webkit-text-stroke:1.5px var(--cyan2)}
+.hero p.lead{margin:28px 0 0;font-size:clamp(18px,2vw,22px);color:var(--sub);max-width:34ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:12px;font-weight:600;text-decoration:none;font-size:16px}
+.btn.primary{background:var(--cyan);color:#05252c}
+.btn.primary:hover{background:var(--cyan2)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--cyan)}
+.portrait{position:relative;justify-self:end;width:min(360px,100%)}
+.portrait img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:28px;filter:grayscale(1) contrast(1.05);
+  box-shadow:0 0 0 1px var(--line),0 40px 90px -40px rgba(34,211,238,.45)}
+.portrait figcaption{margin-top:14px;font:13px/1.5 var(--mono);color:var(--mute)}
+.legend{position:absolute;left:4vw;right:4vw;bottom:22px;display:flex;justify-content:space-between;font:12px var(--mono);color:var(--mute);pointer-events:none}
+@media (max-width:880px){#net{opacity:.45}.hero .wrap{grid-template-columns:1fr;padding-top:100px}.portrait{justify-self:start;width:200px}.legend{display:none}}
+
+/* Sections */
+section{padding-block:96px}
+section h2{margin:0 0 12px;font-size:clamp(30px,4vw,46px);letter-spacing:-.03em;line-height:1.08;max-width:22ch}
+section .intro{color:var(--sub);max-width:60ch;margin:0 0 48px}
+
+/* Measurements: a bench log, before/after bars. */
+.log{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface)}
+.row{display:grid;grid-template-columns:minmax(180px,1.1fr) 2fr;gap:24px;padding:24px 28px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.row h3 a{color:var(--ink);text-decoration:none}
+.row h3 a:hover{color:var(--cyan2)}
+.row .what{margin:6px 0 0;color:var(--mute);font-size:15px}
+.bars{display:grid;gap:10px;align-content:center}
+.bar-line{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;font:14px var(--mono);color:var(--sub)}
+.track{display:block;height:10px;border-radius:99px;background:#1d252c;overflow:hidden}
+.fill{display:block;height:100%;min-width:4px;border-radius:99px;background:var(--mute);width:var(--w)}
+.fill.good{background:linear-gradient(90deg,var(--cyan-deep),var(--cyan))}
+.bar-line b{color:var(--ink);font-weight:600}
+.source{font:12px var(--mono);color:var(--mute);margin-top:4px}
+@media (max-width:720px){.row{grid-template-columns:1fr}.bar-line{grid-template-columns:86px 1fr auto}}
+
+/* Process: a real sequence, so numbered. */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s;border-left:1px solid var(--line)}
+.step{padding:8px 28px 8px;border-right:1px solid var(--line)}
+.step::before{counter-increment:s;content:counter(s);display:block;font:600 15px var(--mono);color:var(--cyan);margin-bottom:18px}
+.step h3{margin:0 0 10px;font-size:22px;letter-spacing:-.02em}
+.step p{margin:0;color:var(--sub)}
+@media (max-width:820px){.steps{grid-template-columns:1fr;border-left:0}.step{border-right:0;border-left:1px solid var(--line);padding:6px 0 26px 22px}}
+
+/* Work */
+.work{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.card{grid-column:span 4;border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.card.wide{grid-column:span 8;background:linear-gradient(140deg,var(--surface),var(--bg2))}
+.card h3{margin:0;font-size:21px;letter-spacing:-.02em}
+.card p{margin:0;color:var(--sub);font-size:16px}
+.card .tags{margin-top:auto;padding-top:10px;font:13px var(--mono);color:var(--mute)}
+.card a.more{color:var(--cyan2);text-decoration:none;font-weight:600;font-size:15px}
+.card a.more:hover{text-decoration:underline}
+@media (max-width:900px){.card,.card.wide{grid-column:span 12}}
+
+/* Apps */
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.app{border-top:2px solid var(--cyan-deep);padding-top:18px}
+.app h3{margin:0 0 6px;font-size:20px}
+.app p{margin:0 0 12px;color:var(--sub);font-size:16px}
+.app nav{display:flex;gap:16px;font-size:15px}
+@media (max-width:760px){.apps{grid-template-columns:1fr}}
+
+/* Path */
+.path{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.path li{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:18px 0;border-top:1px solid var(--line)}
+.path time{font:14px var(--mono);color:var(--mute);padding-top:3px}
+.path strong{display:block;font-size:18px}
+.path span{color:var(--sub)}
+@media (max-width:620px){.path li{grid-template-columns:1fr;gap:4px}}
+
+/* Contact */
+.contact{text-align:left}
+.contact .box{border:1px solid var(--line);border-radius:24px;padding:48px;background:radial-gradient(80% 120% at 100% 0%,var(--bg2),var(--surface));display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+.contact .box img{width:128px;height:128px;image-rendering:pixelated}
+@media (max-width:720px){.contact .box{grid-template-columns:1fr;padding:28px}}
+footer{padding:32px 0 48px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-pt="Pular para o conteúdo" data-en="Skip to content">Pular para o conteúdo</a>
+
+<header class="bar" id="bar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/avatar-8bit.svg" alt="" width="28" height="28">Claudio Bertini</a>
+    <nav aria-label="Seções">
+      <a href="#medido" data-pt="Medido" data-en="Measured">Medido</a>
+      <a href="#trabalho" data-pt="Trabalho" data-en="Work">Trabalho</a>
+      <a href="#apps">Apps</a>
+      <a href="#contato" data-pt="Contato" data-en="Contact">Contato</a>
+      <button class="lang" id="lang" type="button" aria-label="Switch to English">EN</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top" aria-labelledby="h-hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <h1 id="h-hero"><span data-pt="IA de ponta a ponta," data-en="End-to-end AI,">IA de ponta a ponta,</span> <span class="flow" data-pt="do modelo ao app." data-en="from model to app.">do modelo ao app.</span></h1>
+      <p class="lead" data-pt="Construo produtos com IA na nuvem ou no seu hardware, do jeito que o seu negócio precisa: dado sensível protegido, custo previsível e cada entrega conferida por testes." data-en="I build AI products in the cloud or on your own hardware, whichever your business needs: sensitive data protected, predictable costs and every delivery checked by tests.">Construo produtos com IA na nuvem ou no seu hardware, do jeito que o seu negócio precisa: dado sensível protegido, custo previsível e cada entrega conferida por testes.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://www.linkedin.com/in/claudio-bertini/" rel="noopener" data-pt="Conversar no LinkedIn" data-en="Talk on LinkedIn">Conversar no LinkedIn</a>
+        <a class="btn ghost" href="#medido" data-pt="Ver resultados medidos" data-en="See measured results">Ver resultados medidos</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <img src="assets/claudio.jpg" alt="Claudio Bertini" width="460" height="460">
+      <figcaption data-pt="Claudio Bertini, engenheiro de software sênior. Goiânia, Brasil." data-en="Claudio Bertini, senior software engineer. Goiânia, Brazil.">Claudio Bertini, engenheiro de software sênior. Goiânia, Brasil.</figcaption>
+    </figure>
+  </div>
+  <div class="legend" aria-hidden="true"><span data-pt="modelo" data-en="model">modelo</span><span data-pt="agentes e verificação" data-en="agents and checks">agentes e verificação</span><span>app</span></div>
+</section>
+
+<section id="medido" aria-labelledby="h-medido">
+  <div class="wrap">
+    <h2 id="h-medido" data-pt="Medido, não estimado." data-en="Measured, not guessed.">Medido, não estimado.</h2>
+    <p class="intro" data-pt="Cada número abaixo vem de uma medição publicada no próprio projeto." data-en="Every number below comes from a measurement published in the project itself.">Cada número abaixo vem de uma medição publicada no próprio projeto.</p>
+    <div class="log">
+      <div class="row">
+        <div><h3><a href="https://github.com/devBertini/juicebar">JuiceBar</a></h3><p class="what" data-pt="Bateria dos periféricos sem fio na bandeja do Windows. Rust." data-en="Wireless peripheral batteries in the Windows tray. Rust.">Bateria dos periféricos sem fio na bandeja do Windows. Rust.</p></div>
+        <div class="bars">
+          <div class="bar-line"><span data-pt="fabricante" data-en="vendor">fabricante</span><span class="track"><span class="fill" style="--w:100%"></span></span><b>171 MB</b></div>
+          <div class="bar-line"><span>JuiceBar</span><span class="track"><span class="fill good" style="--w:4.7%"></span></span><b>8 MB</b></div>
+          <div class="source" data-pt="memória em uso, medida no Windows 11" data-en="memory in use, measured on Windows 11">memória em uso, medida no Windows 11</div>
+        </div>
+      </div>
+      <div class="row">
+        <div><h3><a href="https://github.com/devBertini/devbertini-tv-launcher">TV Launcher</a></h3><p class="what" data-pt="Tela inicial para Android TV e Google TV. Flutter." data-en="Home screen for Android TV and Google TV. Flutter.">Tela inicial para Android TV e Google TV. Flutter.</p></div>
+        <div class="bars">
+          <div class="bar-line"><span data-pt="antes" data-en="before">antes</span><span class="track"><span class="fill" style="--w:30%"></span></span><b>30%</b></div>
+          <div class="bar-line"><span data-pt="depois" data-en="after">depois</span><span class="track"><span class="fill good" style="--w:0.6%"></span></span><b>0 / 129</b></div>
+          <div class="source" data-pt="quadros perdidos na fileira de apps, medidos quadro a quadro numa TV real" data-en="missed frames on the apps row, measured frame by frame on a real TV">quadros perdidos na fileira de apps, medidos quadro a quadro numa TV real</div>
+        </div>
+      </div>
+      <div class="row">
+        <div><h3>Risco</h3><p class="what" data-pt="Assistente de desktop com um modelo de 1,7B ajustado por mim, em 4 bits, na NPU." data-en="Desktop assistant with a 1.7B model I fine-tuned, in 4 bits, on an NPU.">Assistente de desktop com um modelo de 1,7B ajustado por mim, em 4 bits, na NPU.</p></div>
+        <div class="bars">
+          <div class="bar-line"><span data-pt="modelo 4B" data-en="4B model">modelo 4B</span><span class="track"><span class="fill" style="--w:95.5%"></span></span><b>191</b></div>
+          <div class="bar-line"><span>Risco-1.7B</span><span class="track"><span class="fill good" style="--w:98.5%"></span></span><b>197</b></div>
+          <div class="source" data-pt="pontos de 200 no teste de conversa; 2,4x mais rápido, 1 GB, cerca de 1,3 s por resposta" data-en="points out of 200 in the chat test; 2.4x faster, 1 GB, about 1.3 s per answer">pontos de 200 no teste de conversa; 2,4x mais rápido, 1 GB, cerca de 1,3 s por resposta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como" aria-labelledby="h-como">
+  <div class="wrap">
+    <h2 id="h-como" data-pt="Como um projeto anda" data-en="How a project runs">Como um projeto anda</h2>
+    <p class="intro" data-pt="Escopo fechado no começo e entregas curtas, cada uma com um critério de aceite que se prova executando." data-en="A fixed scope first, then short deliveries, each with an acceptance criterion proven by running it.">Escopo fechado no começo e entregas curtas, cada uma com um critério de aceite que se prova executando.</p>
+    <div class="steps">
+      <div class="step"><h3 data-pt="Diagnóstico" data-en="Assessment">Diagnóstico</h3><p data-pt="O problema, os dados, onde a IA se paga e o que precisa ficar privado." data-en="The problem, the data, where AI pays for itself and what must stay private.">O problema, os dados, onde a IA se paga e o que precisa ficar privado.</p></div>
+      <div class="step"><h3 data-pt="Modelo e agentes" data-en="Model and agents">Modelo e agentes</h3><p data-pt="Escolha, ajuste fino e quantização do modelo; agentes ligados aos seus sistemas, conferidos por testes e regras." data-en="Choosing, fine-tuning and quantizing the model; agents connected to your systems, checked by tests and rules.">Escolha, ajuste fino e quantização do modelo; agentes ligados aos seus sistemas, conferidos por testes e regras.</p></div>
+      <div class="step"><h3 data-pt="Produto no ar" data-en="Product live">Produto no ar</h3><p data-pt="O app em volta do modelo (iOS, Android, Windows ou web), até a publicação." data-en="The app around the model (iOS, Android, Windows or web), through to release.">O app em volta do modelo (iOS, Android, Windows ou web), até a publicação.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="trabalho" aria-labelledby="h-trabalho">
+  <div class="wrap">
+    <h2 id="h-trabalho" data-pt="Trabalho público" data-en="Public work">Trabalho público</h2>
+    <p class="intro" data-pt="Código aberto ou publicado, para você ver como eu construo." data-en="Open or published code, so you can see how I build.">Código aberto ou publicado, para você ver como eu construo.</p>
+    <div class="work">
+      <article class="card wide">
+        <h3>Swapdesk</h3>
+        <p data-pt="Acesso remoto de código aberto para as suas próprias máquinas na rede local: tela, áudio, controle, arquivos e troca de papéis entre Windows e macOS. Em desenvolvimento." data-en="Open-source remote desktop for your own machines on the local network: screen, audio, control, files and role swap between Windows and macOS. In development.">Acesso remoto de código aberto para as suas próprias máquinas na rede local: tela, áudio, controle, arquivos e troca de papéis entre Windows e macOS. Em desenvolvimento.</p>
+        <div class="tags">Rust, QUIC, Windows, macOS</div>
+        <a class="more" href="https://github.com/devBertini/swapdesk" data-pt="Ver no GitHub" data-en="View on GitHub">Ver no GitHub</a>
+      </article>
+      <article class="card">
+        <h3>Bert1n1 IA</h3>
+        <p data-pt="Extensão de VS Code com três agentes sobre um modelo local, busca no código do projeto e validação por lint, build e testes." data-en="VS Code extension with three agents on one local model, project code search and lint, build and test gates.">Extensão de VS Code com três agentes sobre um modelo local, busca no código do projeto e validação por lint, build e testes.</p>
+        <div class="tags">TypeScript, llama.cpp, RAG</div>
+        <a class="more" href="https://github.com/devBertini/bert1n1IA" data-pt="Ver no GitHub" data-en="View on GitHub">Ver no GitHub</a>
+      </article>
+      <article class="card">
+        <h3>JuiceBar</h3>
+        <p data-pt="A bateria do mouse, teclado e headset ao lado do relógio, com previsão de quando acaba." data-en="Your mouse, keyboard and headset batteries next to the clock, with a forecast of when they run out.">A bateria do mouse, teclado e headset ao lado do relógio, com previsão de quando acaba.</p>
+        <div class="tags">Rust, HID++, GPL-3.0</div>
+        <a class="more" href="https://github.com/devBertini/juicebar" data-pt="Ver no GitHub" data-en="View on GitHub">Ver no GitHub</a>
+      </article>
+      <article class="card">
+        <h3>TV Launcher</h3>
+        <p data-pt="Uma tela inicial limpa para Android TV, sem propaganda, a 60 quadros por segundo numa TV de entrada." data-en="A clean Android TV home screen, no ads, at 60 frames per second on a mid-range TV.">Uma tela inicial limpa para Android TV, sem propaganda, a 60 quadros por segundo numa TV de entrada.</p>
+        <div class="tags">Flutter, Android TV, GPL-3.0</div>
+        <a class="more" href="https://github.com/devBertini/devbertini-tv-launcher" data-pt="Ver no GitHub" data-en="View on GitHub">Ver no GitHub</a>
+      </article>
+      <article class="card">
+        <h3 data-pt="Agentes que não aprovam o próprio trabalho" data-en="Agents that never approve their own work">Agentes que não aprovam o próprio trabalho</h3>
+        <p data-pt="Plataforma local de agentes de código em uma GPU de 8 GB: o plano vira contrato com critérios executáveis, e só regras determinísticas e uma pessoa fecham a tarefa. Código ainda não publicado." data-en="A local coding-agent platform on one 8 GB GPU: the plan becomes a contract with runnable criteria, and only deterministic gates and a person close the task. Code not published yet.">Plataforma local de agentes de código em uma GPU de 8 GB: o plano vira contrato com critérios executáveis, e só regras determinísticas e uma pessoa fecham a tarefa. Código ainda não publicado.</p>
+        <div class="tags">XTant, Docker, GBNF</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="apps" aria-labelledby="h-apps">
+  <div class="wrap">
+    <h2 id="h-apps" data-pt="Apps na App Store" data-en="Apps on the App Store">Apps na App Store</h2>
+    <p class="intro" data-pt="Funcionam 100% offline, sem cadastro e sem coleta de dados." data-en="They work 100% offline, with no account and no data collected.">Funcionam 100% offline, sem cadastro e sem coleta de dados.</p>
+    <div class="apps">
+      <div class="app"><h3>KyAuto</h3><p data-pt="Combustível, custos e manutenção do carro, com lembretes por data e quilometragem." data-en="Your car's fuel, costs and maintenance, with reminders by date and mileage.">Combustível, custos e manutenção do carro, com lembretes por data e quilometragem.</p><nav><a href="https://apps.apple.com/br/app/kyauto/id6778464204">App Store</a><a href="/kyauto/" data-pt="Suporte" data-en="Support">Suporte</a></nav></div>
+      <div class="app"><h3>KyPDF</h3><p data-pt="Edite e converta PDFs no próprio iPhone." data-en="Edit and convert PDFs on the iPhone itself.">Edite e converta PDFs no próprio iPhone.</p><nav><a href="https://apps.apple.com/app/id6777500811">App Store</a><a href="/kypdf/" data-pt="Suporte" data-en="Support">Suporte</a></nav></div>
+      <div class="app"><h3>KyPet</h3><p data-pt="Saúde e vacinas do seu pet em um só lugar." data-en="Your pet's health and vaccines in one place.">Saúde e vacinas do seu pet em um só lugar.</p><nav><a href="https://apps.apple.com/br/app/kypet-vacina-e-sa%C3%BAde-do-pet/id6780277669">App Store</a><a href="/kypet/" data-pt="Suporte" data-en="Support">Suporte</a></nav></div>
+    </div>
+  </div>
+</section>
+
+<section id="trajetoria" aria-labelledby="h-traj">
+  <div class="wrap">
+    <h2 id="h-traj" data-pt="Trajetória" data-en="Background">Trajetória</h2>
+    <p class="intro" data-pt="Mais de 7 anos em engenharia de software." data-en="Over 7 years in software engineering.">Mais de 7 anos em engenharia de software.</p>
+    <ol class="path">
+      <li><time>2025 –</time><div><strong>Bertini Consultoria e Desenvolvimento</strong><span data-pt="Fundador e engenheiro de IA" data-en="Founder and AI engineer">Fundador e engenheiro de IA</span></div></li>
+      <li><time>2025 –</time><div><strong>CAIXA</strong><span data-pt="Assistente pleno" data-en="Mid-level assistant">Assistente pleno</span></div></li>
+      <li><time>2025</time><div><strong>Faculdade Focus</strong><span data-pt="MBA em Gestão de Projetos e especialização em Engenharia de Software" data-en="MBA in Project Management and a specialization in Software Engineering">MBA em Gestão de Projetos e especialização em Engenharia de Software</span></div></li>
+      <li><time>2021 – 2025</time><div><strong>Brasal</strong><span data-pt="Desenvolvedor de software pleno e sênior: Pedido Sugerido (Coca-Cola), Conecta Brasal e DevOps" data-en="Mid-level and senior software developer: Pedido Sugerido (Coca-Cola), Conecta Brasal and DevOps">Desenvolvedor de software pleno e sênior: Pedido Sugerido (Coca-Cola), Conecta Brasal e DevOps</span></div></li>
+      <li><time>2019 – 2024</time><div><strong>PUC Goiás</strong><span data-pt="Bacharelado em Ciência da Computação" data-en="BSc in Computer Science">Bacharelado em Ciência da Computação</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contato" class="contact" aria-labelledby="h-contato">
+  <div class="wrap">
+    <div class="box">
+      <div>
+        <h2 id="h-contato" data-pt="Tem um produto que precisa de IA?" data-en="Have a product that needs AI?">Tem um produto que precisa de IA?</h2>
+        <p class="intro" style="margin-bottom:28px" data-pt="Atendo empresas no Brasil e, por escrito, clientes de fora. Conte o problema e eu respondo com um caminho." data-en="I work with companies in Brazil and, in writing, with clients abroad. Tell me the problem and I will reply with a path.">Atendo empresas no Brasil e, por escrito, clientes de fora. Conte o problema e eu respondo com um caminho.</p>
+        <div class="cta" style="margin-top:0">
+          <a class="btn primary" href="https://www.linkedin.com/in/claudio-bertini/" rel="noopener" data-pt="Conversar no LinkedIn" data-en="Talk on LinkedIn">Conversar no LinkedIn</a>
+          <a class="btn ghost" href="https://github.com/devBertini" rel="noopener" data-pt="Ver o GitHub" data-en="See GitHub">Ver o GitHub</a>
+        </div>
+      </div>
+      <img src="assets/avatar-8bit.svg" alt="" width="128" height="128">
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Claudio Bertini (devBertini)</span>
+    <span data-pt="Feito à mão, sem rastreamento." data-en="Hand-made, no tracking.">Feito à mão, sem rastreamento.</span>
+  </div>
+</footer>
+
+<script>
+// Language toggle: Portuguese by default, English on demand; the choice is remembered when storage works.
+(function(){
+  const btn=document.getElementById('lang');
+  function apply(l){
+    document.documentElement.lang = l==='en' ? 'en' : 'pt-BR';
+    document.querySelectorAll('[data-pt]').forEach(el=>{ el.textContent = el.getAttribute(l==='en'?'data-en':'data-pt') || el.textContent; });
+    btn.textContent = l==='en' ? 'PT' : 'EN';
+    btn.setAttribute('aria-label', l==='en' ? 'Mudar para português' : 'Switch to English');
+    document.title = l==='en' ? 'Claudio Bertini: end-to-end AI' : 'Claudio Bertini: IA de ponta a ponta';
+  }
+  let lang=null;
+  try{ lang=localStorage.getItem('lang'); }catch(e){}
+  if(lang!=='pt' && lang!=='en') lang=(navigator.language||'pt').toLowerCase().startsWith('pt') ? 'pt' : 'en';
+  apply(lang);
+  btn.addEventListener('click',()=>{ lang = lang==='en'?'pt':'en'; apply(lang); try{localStorage.setItem('lang',lang);}catch(e){} });
+})();
+
+// Top bar border once the page scrolls.
+(function(){
+  const bar=document.getElementById('bar');
+  const on=()=>bar.classList.toggle('scrolled', scrollY>8);
+  addEventListener('scroll',on,{passive:true}); on();
+})();
+
+// Hero network: layers of nodes from "model" (left) to "app" (right); pulses travel along the edges.
+(function(){
+  const c=document.getElementById('net'), x=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,dpr,nodes=[],edges=[],pulses=[],mouse={x:-1e4,y:-1e4};
+  const LAYERS=[5,8,10,8,5];
+  function build(){
+    dpr=Math.min(devicePixelRatio||1,2); W=c.clientWidth; H=c.clientHeight;
+    c.width=W*dpr; c.height=H*dpr; x.setTransform(dpr,0,0,dpr,0,0);
+    nodes=[]; edges=[];
+    const left=W*0.06, right=W*0.94, top=H*0.16, bottom=H*0.86;
+    LAYERS.forEach((n,li)=>{
+      const lx=left+(right-left)*li/(LAYERS.length-1);
+      for(let i=0;i<n;i++){
+        const ly=top+(bottom-top)*(i+0.5)/n + (Math.random()-.5)*18;
+        nodes.push({x:lx+(Math.random()-.5)*26,y:ly,l:li,b:0});
+      }
+    });
+    for(const a of nodes) for(const b of nodes) if(b.l===a.l+1 && Math.random()<0.42) edges.push([a,b]);
+  }
+  function spawn(){
+    const starts=edges.filter(e=>e[0].l===0);
+    if(starts.length) pulses.push({e:starts[(Math.random()*starts.length)|0],t:0});
+  }
+  function frame(){
+    x.clearRect(0,0,W,H);
+    x.lineWidth=1;
+    for(const [a,b] of edges){
+      x.strokeStyle='rgba(143,166,176,0.10)';
+      x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke();
+    }
+    if(!reduce){
+      if(Math.random()<0.18) spawn();
+      for(let i=pulses.length-1;i>=0;i--){
+        const p=pulses[i]; p.t+=0.022;
+        const [a,b]=p.e, px=a.x+(b.x-a.x)*p.t, py=a.y+(b.y-a.y)*p.t;
+        x.strokeStyle='rgba(34,211,238,0.55)'; x.lineWidth=1.5;
+        const tt=Math.max(0,p.t-0.18);
+        x.beginPath(); x.moveTo(a.x+(b.x-a.x)*tt,a.y+(b.y-a.y)*tt); x.lineTo(px,py); x.stroke();
+        if(p.t>=1){
+          b.b=1; pulses.splice(i,1);
+          const next=edges.filter(e=>e[0]===b);
+          if(next.length) pulses.push({e:next[(Math.random()*next.length)|0],t:0});
+        }
+      }
+    }
+    for(const n of nodes){
+      const d=Math.hypot(n.x-mouse.x,n.y-mouse.y), near=Math.max(0,1-d/160);
+      const glow=Math.min(1,n.b+near);
+      x.fillStyle=`rgba(${glow>0.05?'103,232,249':'143,166,176'},${0.35+glow*0.65})`;
+      x.beginPath(); x.arc(n.x,n.y,2+glow*2.5,0,Math.PI*2); x.fill();
+      n.b*=0.94;
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  addEventListener('resize',()=>{build(); if(reduce) frame();});
+  c.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;});
+  c.parentElement.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-1e4;});
+  build(); frame();
+})();
+</script>
+</body>
+</html>
